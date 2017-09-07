@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/modules/constant.js"],"names":["SUCCESS","ERROR","module","exports"],"mappings":";;AAAA,IAAMA,UAAU,GAAhB;AACA,IAAMC,QAAQ,GAAd;;AAEAC,OAAOC,OAAP,GAAiB;AACbH,oBADa;AAEbC;AAFa,CAAjB","file":"constant.js","sourcesContent":["const SUCCESS = 200;\nconst ERROR = 400;\n\nmodule.exports = {\n    SUCCESS,\n    ERROR\n};"]}

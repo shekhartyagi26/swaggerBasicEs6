@@ -1,0 +1,54 @@
+'use strict';
+
+var PARAMETER_MISSING_MESSAGE = 'Some parameter missing.';
+var INVALID_ACCESS_TOKEN_MESSAGE = 'Invalid access token.';
+var LOGIN_SUCCESSFULLY_MESSAGE = 'Logged in successfully.';
+var INVALID_LOGIN_MESSAGE = 'The username or password you entered is incorrect.';
+var USER_EXIST = 'User already exist.';
+var USERNAME_EXIST = 'Username has already exist.';
+var BAD_REQUEST_MESSAGE = 'Something Went Wrong.';
+var OTP_MATCHED = 'OTP match successfully.';
+var INVALID_VERIFICATION_CODE = 'Invalid verification Code.';
+var OTP_SENT = 'An email has been sent,please verify.';
+var VALID_DETAILS = 'Please enter the valid details.';
+var USER_LOGOUT_MESSAGE = 'User logout successfully.';
+var SUCCESS_MESSAGE = 'Success.';
+var ACCESS_TOKEN_MISSING = 'Access token missing';
+var MOBILE_NUMBER_MESSAGE = 'Mobile number already exists.';
+var PASSWORD_CHANGE_MESSAGE = 'Password changed successfully.';
+var INVALID_MOBILE_EMAIL = 'The mobile or email you entered is incorrect.';
+var VERIFICATION_MESSAGE = 'Please enter this verification code to verify: ';
+var INVALID_ARRAY = 'Invalid Array.';
+var INVALID_POSTID = 'Invalid Post id.';
+var INVALID_COMMENTID = 'Invalid Comment id.';
+var INVALID_USERID = 'Invalid User id.';
+var INVALID_LIKERID = 'Invalid Liker id.';
+var INVALID_LOGIN_TYPE = 'Invalid Login type.';
+
+module.exports = {
+    PARAMETER_MISSING_MESSAGE: PARAMETER_MISSING_MESSAGE,
+    INVALID_ACCESS_TOKEN_MESSAGE: INVALID_ACCESS_TOKEN_MESSAGE,
+    LOGIN_SUCCESSFULLY_MESSAGE: LOGIN_SUCCESSFULLY_MESSAGE,
+    INVALID_LOGIN_MESSAGE: INVALID_LOGIN_MESSAGE,
+    USER_EXIST: USER_EXIST,
+    OTP_MATCHED: OTP_MATCHED,
+    BAD_REQUEST_MESSAGE: BAD_REQUEST_MESSAGE,
+    INVALID_VERIFICATION_CODE: INVALID_VERIFICATION_CODE,
+    OTP_SENT: OTP_SENT,
+    VALID_DETAILS: VALID_DETAILS,
+    USERNAME_EXIST: USERNAME_EXIST,
+    USER_LOGOUT_MESSAGE: USER_LOGOUT_MESSAGE,
+    SUCCESS_MESSAGE: SUCCESS_MESSAGE,
+    ACCESS_TOKEN_MISSING: ACCESS_TOKEN_MISSING,
+    MOBILE_NUMBER_MESSAGE: MOBILE_NUMBER_MESSAGE,
+    PASSWORD_CHANGE_MESSAGE: PASSWORD_CHANGE_MESSAGE,
+    INVALID_MOBILE_EMAIL: INVALID_MOBILE_EMAIL,
+    VERIFICATION_MESSAGE: VERIFICATION_MESSAGE,
+    INVALID_ARRAY: INVALID_ARRAY,
+    INVALID_POSTID: INVALID_POSTID,
+    INVALID_COMMENTID: INVALID_COMMENTID,
+    INVALID_USERID: INVALID_USERID,
+    INVALID_LIKERID: INVALID_LIKERID,
+    INVALID_LOGIN_TYPE: INVALID_LOGIN_TYPE
+};
+//# sourceMappingURL=message.js.map

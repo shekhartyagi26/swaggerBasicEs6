@@ -1,0 +1,41 @@
+{
+    "swagger": "2.0",
+    "info":
+    {
+        "title": "exaltAuto API spec",
+        "description": "exaltAuto API spec for Swagger",
+        "version": "1.0.0"
+    },
+    "host": "localhost:3003",
+    "schemes": [
+        "http"
+    ],
+    "securityDefinitions":
+    {
+        "basicAuth":
+        {
+            "type": "basic",
+            "description": "Uses HTTP Basic Authentication."
+        }
+    },
+
+    "security": [
+    {
+        "basicAuth": []
+    }],
+    "basePath": "/",
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths":
+    {},
+    "responses":
+    {
+
+    },
+    "definitions":
+    {}
+}

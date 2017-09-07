@@ -1,0 +1,1160 @@
+# this is an example of the Uber API
+# as a demonstration of an API spec in YAML
+swagger: '2.0'
+info:
+  title: UCME API spec
+  description: UCME API spec for Swagger
+  version: "1.0.0"
+# the domain of the service
+host: ucme-backend.eu-gb.mybluemix.net
+# array of all schemes that your API supports
+schemes:
+  - http
+# will be prefixed to all paths
+basePath: /
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /users:
+    get:
+      inn: 
+      summary: get all UCME users
+      description: |
+        This endpoint returns all users of UCME.
+        We also can filter users by condition given in query.
+      parameters:
+        - name: any property user has
+          in: query
+          description: any property.
+          required: false
+          type: string
+      tags:
+        - Users
+      responses:
+        200:
+          $ref: '#/responses/User'
+    post:
+      summary: create new UCME user
+      description: |
+        Create new user.
+      parameters:
+        - name: newUser
+          in: body
+          description: request body
+          required: true
+          schema:
+            $ref: '#/definitions/NewUser'
+      tags:
+        - Users
+      responses:
+        201:
+          description: New user created successfully
+          schema:
+            type: object
+            properties:
+              id:
+                $ref: '#/definitions/UserId'
+        400:
+          description: Invalid request body
+  /users/{id}:
+    get:
+      summary: get one UCME user
+      description: |
+        This endpoint returns one user of UCME.
+      parameters:
+        - name: id
+          in: path
+          description: user id.
+          required: true
+          type: string
+      tags:
+        - Users
+      responses:
+        200:
+          $ref: '#/responses/User'
+        404:
+          description: Not found
+    put:
+      summary: update one UCME user
+      description: |
+        Update one user specified by user id.
+      parameters:
+        - name: id
+          in: path
+          description: user id.
+          required: true
+          type: string
+        - name: updatedUser
+          in: body
+          description: updated user.
+          schema:
+            $ref: '#/definitions/NewUser'
+      tags:
+        - Users
+      responses:
+        204:
+          description: A user is successfully updated.
+        400:
+          description: Invalid request body
+        404:
+          description: Not found
+    delete:
+      summary: delete one UCME user
+      description: |
+        Delete one user specified by user id.
+      parameters:
+        - name: id
+          in: path
+          description: user id.
+          required: true
+          type: string
+      tags:
+        - Users
+      responses:
+        204:
+          description: A user is successfully deleted.
+        404:
+          description: Not found
+  /users/{id}/points:
+    get:
+      summary: get points of certain User
+      description: |
+        This endpoint returns points of user.
+      parameters:
+        - name: id
+          in: path
+          description: user's id.
+          required: true
+          type: string
+      tags:
+        - User Point
+      responses:
+        200:
+          $ref: '#/responses/UserPoint'
+  /users/{id}/stars:
+    get:
+      summary: get stars of certain User
+      description: |
+        This endpoint returns stars of user.
+      parameters:
+        - name: id
+          in: path
+          description: user's id.
+          required: true
+          type: string
+      tags:
+        - User Star
+      responses:
+        200:
+          $ref: '#/responses/UserStar'
+  /users/{id}/tracking_users:
+    get:
+      summary: get all tracking users
+      description: |
+        This endpoint returns users whom user is tracking.
+      parameters:
+        - name: id
+          in: path
+          description: user's id.
+          required: true
+          type: string
+      tags:
+        - User Track
+      responses:
+        200:
+          $ref: '#/responses/UserTrack'
+  /users/{id}/location:
+    get:
+      summary: get location of certain User
+      description: |
+        This endpoint returns the location of user.
+      parameters:
+        - name: id
+          in: path
+          description: user's id.
+          required: true
+          type: string
+      tags:
+        - User Location
+      responses:
+        200:
+          $ref: '#/responses/UserLocation'
+    put:
+      summary: update location of certain User
+      description: |
+        This endpoint update the location of user.
+      parameters:
+        - name: id
+          in: path
+          description: user's id.
+          required: true
+          type: string
+        - name: gps
+          in: body
+          description: new GPS of user.
+          schema:
+            $ref: '#/definitions/Coordinates'
+      tags:
+        - User Location
+      responses:
+        204:
+          description: A user is successfully updated.
+        400:
+          description: Invalid request body.
+  /users/{id}/near:
+    get:
+      summary: get near users of certain User
+      description: |
+        This endpoint returns near users.
+      parameters:
+        - name: id
+          in: path
+          description: user's id.
+          required: true
+          type: string
+      tags:
+        - User Near
+      responses:
+        200:
+          $ref: '#/responses/UserNear'
+        404:
+          description: Not found
+  /users/{id}/stores:
+    get:
+      summary: get user stored items
+      description: |
+        This endpoint returns user stored items.
+      parameters:
+        - name: id
+          in: path
+          description: user's id.
+          required: true
+          type: string
+      tags:
+        - User Store
+      responses:
+        200:
+          $ref: '#/responses/UserStore'
+        404:
+          description: Not found
+    post:
+      summary: register new user store item
+      description: |
+        Register new user store item.
+      parameters:
+        - name: id
+          in: path
+          description: user's id.
+          required: true
+          type: string
+        - name: body
+          in: body
+          description: request body
+          required: true
+          schema:
+            $ref: '#/definitions/UserStore'
+      tags:
+        - User Store
+      responses:
+        201:
+          description: New item was stored successfully
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Newly created item's id
+  /users/{id}/stores/{storeId}:
+    delete:
+      summary: delete one ARO Animal
+      description: |
+        Delete ARO Animal specified by id.
+      parameters:
+        - name: id
+          in: path
+          description: user id.
+          required: true
+          type: string
+        - name: storeId
+          in: path
+          description: stored item id.
+          required: true
+          type: string
+      tags:
+        - User Store
+      responses:
+        204:
+          description: Stored item was successfully deleted.
+  /users/{id}/requests:
+    get:
+      summary: get all requests for the user
+      description: |
+        This endpoint returns all requests sent for the user.
+        Requests are generated by Interactions automatically
+      parameters:
+        - name: id
+          in: path
+          description: user's id.
+          required: true
+          type: string
+      tags:
+        - User Requests
+      responses:
+        200:
+          $ref: '#/responses/UserRequest'
+  /poi:
+    get:
+      summary: get all POIs
+      description: |
+        This endpoint returns all POIs.
+      parameters:
+        - name: any condition to filter POIs
+          in: query
+          description: userId | userStoreId
+          required: false
+          type: string
+      tags:
+        - POI
+      responses:
+        200:
+          $ref: '#/responses/POI'
+    post:
+      summary: create new POI
+      description: |
+        Create new POI.
+      parameters:
+        - name: newPOI
+          in: body
+          description: request body
+          required: true
+          schema:
+            $ref: '#/definitions/POI'
+      tags:
+        - POI
+      responses:
+        201:
+          description: New POI was created successfully
+          schema:
+            type: object
+            properties:
+              id:
+                $ref: '#/definitions/POIId'
+        400:
+          description: Invalid request body
+  /poi/{id}:
+    delete:
+      summary: delete POI
+      description: |
+        Delete POI specified by user id.
+      parameters:
+        - name: id
+          in: path
+          description: POI id.
+          required: true
+          type: string
+      tags:
+        - POI
+      responses:
+        204:
+          description: A POI is successfully deleted.
+        404:
+          description: Not found
+  /aro_animals:
+    get:
+      summary: get all ARO animals
+      description: |
+        This endpoint returns all ARO animals.
+      parameters:
+        - name: any property user has
+          in: query
+          description: any property.
+          required: false
+          type: string
+          format: double
+      tags:
+        - ARO Animals
+      responses:
+        200:
+          description: An object of ARO animals
+          schema:
+            type: object
+            items:
+              $ref: '#/definitions/AROAnimal'
+    post:
+      summary: create new ARO animal
+      description: |
+        Create new ARO animal.
+      parameters:
+        - name: body
+          in: body
+          description: request body
+          required: true
+          schema:
+            $ref: '#/definitions/NewAROAnimal'
+      tags:
+        - ARO Animals
+      responses:
+        201:
+          description: New ARO Animals was created successfully
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                description: Newly created ARO animal's id
+  /aro_animals/{id}:
+    get:
+      summary: get one ARO animal
+      description: |
+        This endpoint returns one ARO animal.
+      parameters:
+        - name: id
+          in: path
+          description: ARO animal's id.
+          required: true
+          type: string
+      tags:
+        - ARO Animals
+      responses:
+        200:
+          description: A ARO Animal included in object
+          schema:
+            type: object
+            items:
+              $ref: '#/definitions/AROAnimal'
+    put:
+      summary: update one ARO Animal
+      description: |
+        Update one ARO animal specified by id.
+      parameters:
+        - name: id
+          in: path
+          description: ARO animal id.
+          required: true
+          type: string
+      tags:
+        - ARO Animals
+      responses:
+        204:
+          description: ARO Animals is successfully updated.
+    delete:
+      summary: delete one ARO Animal
+      description: |
+        Delete ARO Animal specified by id.
+      parameters:
+        - name: id
+          in: path
+          description: ARO animal id.
+          required: true
+          type: string
+      tags:
+        - ARO Animals
+      responses:
+        204:
+          description: ARO Animals is successfully deleted.
+  /aro_animals/{id}/status:
+    get:
+      summary: get status of certain ARO animal
+      description: |
+        This endpoint returns status of certain ARO animal.
+      parameters:
+        - name: id
+          in: path
+          description: ARO animal's id.
+          required: true
+          type: string
+      tags:
+        - ARO Animal Status
+      responses:
+        200:
+          description: An object of response
+          schema:
+            type: object
+            properties:
+              info:
+                $ref: '#/definitions/ResponseInfo'
+              status:
+                $ref: '#/definitions/ResponseStatus'
+              error:
+                $ref: '#/definitions/GenericResponseError'
+              count:
+                $ref: '#/definitions/ResponseCount'
+              data:
+                type: object
+                properties:
+                  items:
+                    type: object
+                    properties:
+                      createdAt:
+                        type: string
+                        description: The date document was created at
+                      id:
+                        type: string
+                        description: Id of user points
+                      happiness:
+                        type: object
+                        properties:
+                          points:
+                            type: string
+                            description: ARO animal's happiness point
+                          status:
+                            type: string
+                            description: ARO animal's happiness status
+                      health:
+                        type: object
+                        properties:
+                          points:
+                            type: string
+                            description: ARO animal's health point
+                          status:
+                            type: string
+                            description: ARO animal's health status
+                      aroId:
+                        type: string
+                        description: ARO animal's id
+                      isCloseToDie:
+                        type: string
+                        description: If ARO animal is close to die or not
+                      isDeath:
+                        type: string
+                        description: If ARO animal is dead or not
+  /utils/locations/distance:
+    get:
+      summary: calculate distance
+      description: |
+        calculate distance between two points, given in query parameter.
+      parameters:
+        - name: long1
+          in: query
+          description: longitude of Point1.
+          required: true
+          type: string
+        - name: lat1
+          in: query
+          description: latitude of Point1.
+          required: true
+          type: string
+        - name: long2
+          in: query
+          description: latitude of Point2.
+          required: true
+          type: string
+        - name: lat2
+          in: query
+          description: latitude of Point2.
+          required: true
+          type: string
+        - name: unit
+          in: query
+          description: Unit of distance.
+          required: false
+          type: string
+      tags:
+        - Utils
+      responses:
+        200:
+          description: Distance between two Points.
+          schema:
+            type: object
+            properties:
+              error:
+                $ref: '#/definitions/GenericResponseError'
+              data:
+                type: object
+                properties:
+                  dist:
+                    type: string
+                    description: Distance between two Points
+  /utils/locations/distance_and_areas:
+    get:
+      summary: geocode areas and calculate distance
+      description: |
+        geocode areas and calculate distance between two points, given in query parameter.
+      parameters:
+        - name: long1
+          in: query
+          description: longitude of Point1.
+          required: true
+          type: string
+        - name: lat1
+          in: query
+          description: latitude of Point1.
+          required: true
+          type: string
+        - name: long2
+          in: query
+          description: latitude of Point2.
+          required: true
+          type: string
+        - name: lat2
+          in: query
+          description: latitude of Point2.
+          required: true
+          type: string
+        - name: unit
+          in: query
+          description: Unit of distance.
+          required: false
+          type: string
+      tags:
+        - Utils
+      responses:
+        200:
+          description: Two areas and distance between two Points.
+          schema:
+            type: object
+            properties:
+              error:
+                $ref: '#/definitions/GenericResponseError'
+              data:
+                type: object
+                properties:
+                  area1:
+                    $ref: '#/definitions/Area'
+                  area2:
+                    $ref: '#/definitions/Area'
+                  dist:
+                    type: string
+                    description: Distance between two Points
+  /check/user/userId/{userId}:
+    get:
+      summary: check if user with certain userId exists or not.
+      description: |
+        returns if user with userId already exists or not.
+      parameters:
+        - name: userId
+          in: path
+          description: userId.
+          required: true
+          type: string
+      tags:
+        - Check
+      responses:
+        200:
+          description: If user with certain userId already exists or not.
+          schema:
+            type: object
+            properties:
+              error:
+                $ref: '#/definitions/GenericResponseError'
+              data:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: user's id
+                  userId:
+                    $ref: '#/definitions/UserId'
+                  isTaken:
+                    type: string
+                    description: If user with certain userId already exists or not.
+  /check/user/email/{email}:
+    get:
+      summary: check if user with certain email exists or not.
+      description: |
+        returns if user with email already exists or not.
+      parameters:
+        - name: email
+          in: path
+          description: user email.
+          required: true
+          type: string
+      tags:
+        - Check
+      responses:
+        200:
+          description: If user with certain email already exists or not.
+          schema:
+            type: object
+            properties:
+              error:
+                $ref: '#/definitions/GenericResponseError'
+              data:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: user's id
+                  userId:
+                    $ref: '#/definitions/UserId'
+                  isTaken:
+                    type: string
+                    description: If user with certain email already exists or not.
+
+responses:
+  User:
+    description: An object of users
+    schema:
+      $ref: '#/definitions/User'
+    examples:
+      $ref: '#/definitions/UserExample'
+  UserPoint:
+    description: An object of user point
+    schema:
+      $ref: '#/definitions/UserPoint'
+    examples:
+      $ref: '#/definitions/UserPointExample'
+  UserStar:
+    description: An object of user star
+    schema:
+      $ref: '#/definitions/UserStar'
+    examples:
+      $ref: '#/definitions/UserStarExample'
+  UserStore:
+    description: A collection of user stored items
+    schema:
+      $ref: '#/definitions/UserStore'
+    examples:
+      $ref: '#/definitions/UserStoreExample'
+  UserTrack:
+    description: A collection of tracking users
+    schema:
+      $ref: '#/definitions/UserTrack'
+    examples:
+      $ref: '#/definitions/UserTrackExample'
+  UserLocation:
+    description: An object of user location info
+    schema:
+      $ref: '#/definitions/UserLocation'
+    examples:
+      $ref: '#/definitions/UserLocationExample'
+  UserNear:
+    description: An object of near user info
+    schema:
+      $ref: '#/definitions/UserNear'
+  UserRequest:
+    description: An object of requests
+    schema:
+      $ref: '#/definitions/UserRequest'
+  POI:
+    description: An object of POI
+    schema:
+      $ref: '#/definitions/POI'
+
+definitions:
+  # Models
+  User:
+    type: object
+    properties:
+      id:
+        $ref: '#/definitions/User_Id'
+      userId:
+        $ref: '#/definitions/UserId'
+      name:
+        $ref: '#/definitions/UserName'
+      firstname:
+        $ref: '#/definitions/UserFirstName'
+      lastname:
+        $ref: '#/definitions/UserLastName'
+      email:
+        $ref: '#/definitions/UserEmail'
+      gender:
+        $ref: '#/definitions/UserGender'
+      age:
+        $ref: '#/definitions/UserAge'
+      birthday:
+        $ref: '#/definitions/UserBirthday'
+      country:
+        $ref: '#/definitions/UserCountry'
+      city:
+        $ref: '#/definitions/UserCity'
+      isGaia:
+        $ref: '#/definitions/UserIsGaia'
+      willGaia:
+        $ref: '#/definitions/UserWillGaia'
+      gps:
+        $ref: '#/definitions/UserGps'
+      accountType:
+        $ref: '#/definitions/UserAccountType'
+      lastLogin:
+        $ref: '#/definitions/UserLastLogin'
+      createdAt:
+        $ref: '#/definitions/CreatedAt'
+      updatedAt:
+        $ref: '#/definitions/UpdatedAt'
+    example:
+      $ref: '#/definitions/UserExample'
+  NewUser:
+    type: object
+    properties:
+      userId:
+        $ref: '#/definitions/UserId'
+      name:
+          $ref: '#/definitions/UserName'
+      firstname:
+          $ref: '#/definitions/UserFirstName'
+      lastname:
+          $ref: '#/definitions/UserLastName'
+      email:
+          $ref: '#/definitions/UserEmail'
+      gender:
+          $ref: '#/definitions/UserGender'
+      age:
+          $ref: '#/definitions/UserAge'
+      birthday:
+          $ref: '#/definitions/UserBirthday'
+      country:
+          $ref: '#/definitions/UserCountry'
+      city:
+          $ref: '#/definitions/UserCity'
+      accountType:
+          $ref: '#/definitions/UserAccountType'
+    example:
+      $ref: '#/definitions/NewUserExample'
+  UserPoint:
+    type: object
+    properties:
+      items:
+        type: object
+        properties:
+          createdAt:
+            $ref: '#/definitions/CreatedAt'
+          updatedAt:
+            $ref: '#/definitions/UpdatedAt'
+          id:
+            type: string
+            description: Id of user points
+          points:
+            type: string
+            description: User points
+          userId:
+            $ref: '#/definitions/UserId'
+    example:
+      $ref: '#/definitions/UserPointExample'
+  UserStar:
+    type: object
+    properties:
+      items:
+        type: object
+        properties:
+          createdAt:
+            $ref: '#/definitions/CreatedAt'
+          updatedAt:
+            $ref: '#/definitions/UpdatedAt'
+          id:
+            type: string
+            description: Id of user stars
+          star:
+            type: string
+            description: User stars
+          today:
+            type: string
+            description: Stars user earn today
+          userId:
+            $ref: '#/definitions/UserId'
+    example:
+      $ref: '#/definitions/UserStarExample'
+  UserStore:
+    type: object
+    properties:
+      userId:
+        $ref: '#/definitions/UserId'
+      type:
+        type: string
+        description: stored item's type
+      restCount:
+        type: string
+        description: how many items left
+    example:
+      $ref: '#/definitions/UserStoreExample'
+  UserTrack:
+    type: object
+    properties:
+      userId:
+        $ref: '#/definitions/UserId'
+      name:
+        $ref: '#/definitions/UserName'
+      location:
+        $ref: '#/definitions/Coordinates'
+    example:
+      $ref: '#/definitions/UserLocationExample'
+  UserLocation:
+    type: object
+    properties:
+      id:
+        $ref: '#/definitions/User_Id'
+      userId:
+        $ref: '#/definitions/UserId'
+      gps:
+        type: object
+        properties:
+          coordinates:
+            $ref: '#/definitions/Coordinates'
+    example:
+      $ref: '#/definitions/UserLocationExample'
+  UserNear:
+    type: object
+    properties:
+      id:
+        type: string
+        description: unique primary key
+      userId:
+        $ref: '#/definitions/UserId'
+      name:
+        $ref: '#/definitions/UserName'
+      gps:
+        type: object
+        properties:
+          longitude:
+            type: string
+            description: longitude
+          latitude:
+            type: string
+            description: latitude
+      dist:
+        type: string
+        description: distance between users.
+  UserRequest:
+    type: object
+    properties:
+      id:
+        type: string
+        description: unique primary key
+      targetId:
+        $ref: '#/definitions/UserId'
+      senderId:
+        $ref: '#/definitions/UserId'
+      type:
+        type: string
+        description: Request's type.
+      status:
+        type: string
+        description: Approved, Rejected or Not Processed.
+    example:
+      $ref: '#/definitions/UserRequestExample'
+  POI:
+    type: object
+    properties:
+      userId:
+        $ref: '#/definitions/UserId'
+      userStoreId:
+        $ref: '#/definitions/UserStoreId'
+      location:
+        $ref: '#/definitions/Coordinates'
+      viewed:
+        type: string
+        description: total viewed count of this POi
+      shared:
+        type: string
+        description: total shared count of this POi
+    example:
+      $ref: '#/definitions/POIExample'
+  AROAnimal:
+    type: object
+    properties:
+      id:
+        type: string
+        description: ARO animal's id
+      type:
+        type: string
+        description: ARO animal's type
+      userId:
+        type: string
+        description: Id of user who owns this ARO Animal
+  NewAROAnimal:
+    type: object
+    properties:
+      type:
+        type: string
+        description: ARO animal's type
+      userId:
+        type: string
+        description: Id of user who owns this ARO Animal
+  Area:
+    type: object
+    properties:
+      zipcode:
+        type: string
+        description: area's zipcode
+      country:
+        type: string
+        description: country name
+      city:
+        type: string
+        description: city name
+      streetName:
+        type: string
+        description: street name
+      streetNumber:
+        type: string
+        description: street number
+
+  # Examples
+  UserExample:
+    example:
+      id: fdskajfa
+      userId: sample_user
+      name: sample user
+      firstname: sample
+      lastname: sample
+      email: sample@sample.com
+      gender: male
+      birthday: 01/01/2000
+      country: SampleCountry
+      city: SampleCity
+      isGaia: false
+      gps:
+        coordinates:
+          - 172.6753
+          - -43.50943
+      lastLogin: 2016-11-19T08:48:10.245Z
+      createdAt: 2016-11-19T08:48:10.245Z
+      updatedAt: 2016-11-19T08:48:10.245Z
+  NewUserExample:
+    example:
+      userId: samplesamplesample
+      name: sample user
+      firstname: sample
+      lastname: sample
+      email: sample@sample.com
+      gender: male
+      age: 25
+      birthday: 01/01/2000
+      country: SampleCountry
+      city: SampleCity
+      isGaia: false
+      willGaia: false
+      accountType: Facebook
+  UserPointExample:
+    example:
+      createdAt: 2016-11-19T08:48:10.245Z
+      updatedAt: 2016-11-19T08:48:10.245Z
+      id: sample_user_point_id
+      userId: sample_user_id
+      points: 200
+  UserStarExample:
+    example:
+      createdAt: 2016-11-19T08:48:10.245Z
+      updatedAt: 2016-11-19T08:48:10.245Z
+      id: sample_user_star_id
+      userId: sample_user_id
+      star: 0
+  UserStoreExample:
+    example:
+      createdAt: 2016-11-19T08:48:10.245Z
+      updatedAt: 2016-11-19T08:48:10.245Z
+      id: sample_user_store_id
+      userId: sample_user_id
+      type: IMAGE
+  UserTrackExample:
+    example:
+      createdAt: 2016-11-19T08:48:10.245Z
+      updatedAt: 2016-11-19T08:48:10.245Z
+      id: sample_user_track_id
+      userId: sample_user_id
+      name: hoge
+      location:
+        longitude: '-71.063611'
+        latitude: '42.358056'
+  UserLocationExample:
+    example:
+      id: sample_id
+      userId: sample_userId
+      name: sample_user
+      gps:
+        coordinates:
+          - '-71.063611'
+          - '42.358056'
+  UserRequestExample:
+    example:
+      id: sample_id
+      targetId: sample_target_user_id
+      senderId: sample_sender_user_id
+      type: TRACK_REQUEST
+      status: APPROVED
+  POIExample:
+    example:
+      userId: sample_user_id
+      userStoreId: sample_user_store_id
+      location:
+        longtitude: -71.063611
+        latitude: 42.358056
+      viewed: 400
+      shared: 10
+  GenericResponseError:
+    type: object
+    properties:
+      message:
+        type: string
+        description: error message
+      description:
+        type: string
+        description: error detail description
+  ResponseInfo:
+    type: string
+    description: response info
+  ResponseStatus:
+    type: string
+    description: response status code
+  ResponseCount:
+    type: string
+    description: response items' count
+
+  # Properties
+  User_Id:
+    type: string
+    description: Unique identifier representing a specific user.
+  UserId:
+    type: string
+    description: UserId which user entered.
+  UserName:
+    type: string
+    description: The name of user. Must be unique.
+  UserFirstName:
+    type: string
+    description: The first name of user.
+  UserLastName:
+    type: string
+    description: The last name of user.
+  UserEmail:
+    type: string
+    description: The email of user. Must be unique.
+  UserGender:
+    type: string
+    description: The gender of user. Must be male or female.
+  UserAge:
+    type: string
+    description: The age of user.
+  UserBirthday:
+    type: string
+    description: The birthday of user. Must be the format of YYYY/MM/DD.
+  UserCountry:
+    type: string
+    description: The country where user lives.
+  UserCity:
+    type: string
+    description: The city where user lives.
+  UserIsGaia:
+    type: string
+    description: If user is Gaia or not. Gaia is a kind of status in UCME.
+  UserWillGaia:
+    type: string
+    description: If user will be Gaia tomorrow or not.
+  UserGps:
+    type: string
+    description: Geolocation information of user.
+  UserAccountType:
+    type: string
+    description: In which way user created account. Facebook, Google or UCME.
+  UserLastLogin:
+    type: string
+    description: Last logedin date of user.
+  UserStoreId:
+    type: string
+    description: The ID of user_store item.
+  POIId:
+    type: string
+    description: The ID of POI.
+  Coordinates:
+    type: array
+    description: longitude and latitude
+    items:
+      type: string
+  CreatedAt:
+    type: string
+    description: The date when document was created.
+  UpdatedAt:
+    type: string
+    description: The date when document was updated. If never updated, updatedAt can be empty.
